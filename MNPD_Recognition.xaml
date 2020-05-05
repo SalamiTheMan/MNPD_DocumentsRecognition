@@ -1,0 +1,21 @@
+﻿<Window x:Name="MNPD_Recognition_Window" x:Class="MNPD_Documents_Recognition.MNPD_Recognition"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cm="clr-namespace:System.ComponentModel;assembly=System"
+        xmlns:local="clr-namespace:MNPD_Documents_Recognition"
+        mc:Ignorable="d"
+        Title="MNPD Recognition" Height="705.541" Width="1049.087" ResizeMode="CanMinimize"
+        >
+    <Grid>
+        <ListBox x:Name="Pages" HorizontalAlignment="Left" Height="616" Margin="10,10,0,0" VerticalAlignment="Top" Width="184" RenderTransformOrigin="0.483,0.49" SelectionChanged="Pages_SelectionChanged"/>
+        <Image x:Name="PagePicture" HorizontalAlignment="Left" Height="616" Margin="199,10,0,0" VerticalAlignment="Top" Width="360"/>
+        <TextBox x:Name="RecognizedText" HorizontalAlignment="Left" Height="616" Margin="564,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="467"/>
+        <Button x:Name="Choose_PDF" Content="Выбрать PDF" HorizontalAlignment="Left" Margin="10,631,0,0" VerticalAlignment="Top" Width="184" Height="35" Click="Choose_PDF_Click"/>
+        <ProgressBar x:Name="PDF_Convertion_Status" Minimum="0" Maximum="100" HorizontalAlignment="Left" Height="35" Margin="199,631,0,0" VerticalAlignment="Top" Width="832"/>
+
+    </Grid>
+</Window>
+
+
