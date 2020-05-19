@@ -35,14 +35,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Docnet.Core, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\MNPD_DocumentsRecognition\packages\Docnet.Core.1.4.0\lib\netstandard2.0\Docnet.Core.dll</HintPath>
+    <Reference Include="Docnet.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Docnet.Core.2.0.0\lib\netstandard2.0\Docnet.Core.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\MNPD_DocumentsRecognition\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfiumViewer, Version=2.13.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
-      <HintPath>..\MNPD_DocumentsRecognition\packages\PdfiumViewer.2.13.0.0\lib\net20\PdfiumViewer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -113,8 +110,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)x64" "$(TargetDir)x64" /e /y /i /r
-xcopy "$(ProjectDir)x86" "$(TargetDir)x86" /e /y /i /r
+    <PostBuildEvent>xcopy "$(ProjectDir)x64" "$(TargetDir)" /e /y /i /r
 xcopy "$(ProjectDir)tesseract" "$(TargetDir)tesseract" /e /y /i /r</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿using Docnet.Core;
+using Docnet.Core.Models;
 using Docnet.Core.Readers;
 using Microsoft.Win32;
 using NLog;
-using PdfiumViewer;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -79,8 +79,8 @@ namespace MNPD_Documents_Recognition
             dialog.Filter = "pdf files (*.pdf)|*.pdf|All files (*.*)|*.*";
             if (dialog.ShowDialog() == true)
             {
-                OpenFile(dialog.FileName);
                 filepath = dialog.FileName;
+                PagePicture.Source = null;
             }
             if (worker.IsBusy != true)
             {
@@ -113,7 +113,7 @@ namespace MNPD_Documents_Recognition
                 string currentDirectory = Directory.GetCurrentDirectory();
 
                 //заполняю листбокс
-                string[] fileArray = Directory.GetFiles(Path.Combine(currentDirectory, imagesDirectory)).Select(System.IO.Path.GetFileName).ToArray();
+                string[] fileArray = Directory.GetFiles(Path.Combine(currentDirectory, imagesDirectory)).Select(Path.GetFileName).ToArray();
                 var result = fileArray.OrderBy(x => x.Length);
                 Pages.ItemsSource = result.ToArray();
 
@@ -142,7 +142,7 @@ namespace MNPD_Documents_Recognition
                 logger.Debug($"Отмена воркера: {worker.CancellationPending}");
                 using (var library = DocLib.Instance)
                 {
-                    using (var docReader = library.GetDocReader(filepath, 768, 1024))
+                    using (var docReader = library.GetDocReader(filepath, new PageDimensions(768, 1024)))
                     {
                         string imagesDirectory = "cache";
                         Directory.CreateDirectory(imagesDirectory);
@@ -154,7 +154,7 @@ namespace MNPD_Documents_Recognition
                             using (var pageReader = docReader.GetPageReader(i))
                             {
                                 var bytes = GetModifiedImage(pageReader);
-                                File.WriteAllBytes(System.IO.Path.Combine(currentDirectory, imagesDirectory, $"{i}.png"), bytes);
+                                File.WriteAllBytes(Path.Combine(currentDirectory, imagesDirectory, $"{i}.png"), bytes);
                             }
                             int progressPercentage = Convert.ToInt32(((double)i / pagesCount) * 100);
                             worker.ReportProgress(progressPercentage);
@@ -178,17 +178,6 @@ namespace MNPD_Documents_Recognition
         #endregion
 
         #region Различные вспомогательные функции
-        /// <summary>
-        /// Открывает PDF и преобразовывает его
-        /// </summary>
-        /// <param name="filepath"></param>
-        public void OpenFile(string filepath)
-        {
-            byte[] bytes = File.ReadAllBytes(filepath);
-            var stream = new MemoryStream(bytes);
-            PdfDocument.Load(stream);
-        }
-
         /// <summary>
         /// Запускаем tesseract напрямую через exe файл, возвращаем распознанный текст
         /// TODO: Переделать уже с запуска из exe файла используя API (это оказалось очень очень сложно)
